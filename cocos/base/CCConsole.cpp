@@ -738,8 +738,8 @@ void Console::commandTouch(int fd, const std::string& args)
                 _touchId = rand();
                 Scheduler *sched = Director::getInstance()->getScheduler();
                 sched->performFunctionInCocosThread( [&](){
-                    Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &_touchId, &x, &y);
-                    Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &_touchId, &x, &y);
+                    Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &_touchId, &x, &y, NULL);
+                    Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &_touchId, &x, &y, NULL);
                 });
             }
             else 
@@ -768,7 +768,7 @@ void Console::commandTouch(int fd, const std::string& args)
                 Scheduler *sched = Director::getInstance()->getScheduler();
                 sched->performFunctionInCocosThread( [=](){
                     float tempx = x1, tempy = y1;
-                    Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &_touchId, &tempx, &tempy);
+                    Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &_touchId, &tempx, &tempy, NULL);
                 });
 
                 float dx = std::abs(x1 - x2);
@@ -797,7 +797,7 @@ void Console::commandTouch(int fd, const std::string& args)
                         }
                         sched->performFunctionInCocosThread( [=](){
                             float tempx = _x_, tempy = _y_;
-                            Director::getInstance()->getOpenGLView()->handleTouchesMove(1, &_touchId, &tempx, &tempy);
+                            Director::getInstance()->getOpenGLView()->handleTouchesMove(1, &_touchId, &tempx, &tempy, NULL);
                         });
                         dx -= 1;
                     }
@@ -825,7 +825,7 @@ void Console::commandTouch(int fd, const std::string& args)
                         }
                         sched->performFunctionInCocosThread( [=](){
                             float tempx = _x_, tempy = _y_;
-                            Director::getInstance()->getOpenGLView()->handleTouchesMove(1, &_touchId, &tempx, &tempy);
+                            Director::getInstance()->getOpenGLView()->handleTouchesMove(1, &_touchId, &tempx, &tempy, NULL);
                         });
                        dy -= 1;
                     }
@@ -834,7 +834,7 @@ void Console::commandTouch(int fd, const std::string& args)
 
                 sched->performFunctionInCocosThread( [=](){
                     float tempx = x2, tempy = y2;
-                    Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &_touchId, &tempx, &tempy);
+                    Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &_touchId, &tempx, &tempy, NULL);
                 });
 
             }

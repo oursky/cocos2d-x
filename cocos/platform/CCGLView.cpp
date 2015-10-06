@@ -268,7 +268,7 @@ const std::string& GLView::getViewName() const
     return _viewName;
 }
 
-void GLView::handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[])
+void GLView::handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[], float radiuss[])
 {
     intptr_t id = 0;
     float x = 0.0f;
@@ -298,6 +298,7 @@ void GLView::handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[])
             Touch* touch = g_touches[unusedIndex] = new (std::nothrow) Touch();
             touch->setTouchInfo(unusedIndex, (x - _viewPortRect.origin.x) / _scaleX,
                                      (y - _viewPortRect.origin.y) / _scaleY);
+            touch->setRadius(radiuss[i]);
             
             CCLOGINFO("x = %f y = %f", touch->getLocationInView().x, touch->getLocationInView().y);
             
@@ -317,7 +318,7 @@ void GLView::handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[])
     dispatcher->dispatchEvent(&touchEvent);
 }
 
-void GLView::handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[])
+void GLView::handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[], float radiuss[])
 {
     intptr_t id = 0;
     float x = 0.0f;
@@ -343,7 +344,7 @@ void GLView::handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[])
         {
             touch->setTouchInfo(iter->second, (x - _viewPortRect.origin.x) / _scaleX,
                                 (y - _viewPortRect.origin.y) / _scaleY);
-            
+            touch->setRadius(radiuss[i]);
             touchEvent._touches.push_back(touch);
         }
         else
@@ -365,7 +366,7 @@ void GLView::handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[])
     dispatcher->dispatchEvent(&touchEvent);
 }
 
-void GLView::handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num, intptr_t ids[], float xs[], float ys[])
+void GLView::handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num, intptr_t ids[], float xs[], float ys[], float radiuss[])
 {
     intptr_t id = 0;
     float x = 0.0f;
@@ -392,7 +393,7 @@ void GLView::handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num
             CCLOGINFO("Ending touches with id: %d, x=%f, y=%f", id, x, y);
             touch->setTouchInfo(iter->second, (x - _viewPortRect.origin.x) / _scaleX,
                                 (y - _viewPortRect.origin.y) / _scaleY);
-
+            touch->setRadius(radiuss[i]);
             touchEvent._touches.push_back(touch);
             
             g_touches[iter->second] = nullptr;
@@ -425,14 +426,14 @@ void GLView::handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num
     }
 }
 
-void GLView::handleTouchesEnd(int num, intptr_t ids[], float xs[], float ys[])
+void GLView::handleTouchesEnd(int num, intptr_t ids[], float xs[], float ys[], float radiuss[])
 {
-    handleTouchesOfEndOrCancel(EventTouch::EventCode::ENDED, num, ids, xs, ys);
+    handleTouchesOfEndOrCancel(EventTouch::EventCode::ENDED, num, ids, xs, ys, radiuss);
 }
 
-void GLView::handleTouchesCancel(int num, intptr_t ids[], float xs[], float ys[])
+void GLView::handleTouchesCancel(int num, intptr_t ids[], float xs[], float ys[], float radiuss[])
 {
-    handleTouchesOfEndOrCancel(EventTouch::EventCode::CANCELLED, num, ids, xs, ys);
+    handleTouchesOfEndOrCancel(EventTouch::EventCode::CANCELLED, num, ids, xs, ys, radiuss);
 }
 
 const Rect& GLView::getViewPortRect() const

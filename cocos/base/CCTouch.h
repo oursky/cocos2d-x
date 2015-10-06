@@ -108,6 +108,7 @@ public:
         _prevPoint = _point;
         _point.x   = x;
         _point.y   = y;
+        _radius = 0;
         if (!_startPointCaptured)
         {
             _startPoint = _point;
@@ -125,6 +126,20 @@ public:
     {
         return _id;
     }
+    
+    /** Get touch radius.
+     *
+     * @return The radius of touch.
+     */
+    float getRadius() const
+    {
+        return _radius;
+    }
+    
+    void setRadius(float radius)
+    {
+        _radius = radius;
+    }
 
 private:
     int _id;
@@ -132,6 +147,7 @@ private:
     Vec2 _startPoint;
     Vec2 _point;
     Vec2 _prevPoint;
+    float _radius;
 };
 
 // end of base group

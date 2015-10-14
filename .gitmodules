@@ -10,3 +10,6 @@
 [submodule "web"]
         path = web
         url = git://github.com/cocos2d/cocos2d-html5.git
+[submodule "external/Cocos2dxGAFPlayer"]
+	path = external/Cocos2dxGAFPlayer
+	url = git@github.com:oursky/Cocos2dxGAFPlayer.git

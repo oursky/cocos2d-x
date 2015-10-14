@@ -32,48 +32,52 @@ THE SOFTWARE.
 using namespace cocos2d;
 
 extern "C" {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesBegin(JNIEnv * env, jobject thiz, jint id, jfloat x, jfloat y) {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesBegin(JNIEnv * env, jobject thiz, jint id, jfloat x, jfloat y, jfloat radius) {
         intptr_t idlong = id;
-        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &idlong, &x, &y);
+        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesBegin(1, &idlong, &x, &y, &radius);
     }
 
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesEnd(JNIEnv * env, jobject thiz, jint id, jfloat x, jfloat y) {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesEnd(JNIEnv * env, jobject thiz, jint id, jfloat x, jfloat y, jfloat radius) {
         intptr_t idlong = id;
-        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &idlong, &x, &y);
+        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesEnd(1, &idlong, &x, &y, &radius);
     }
 
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesMove(JNIEnv * env, jobject thiz, jintArray ids, jfloatArray xs, jfloatArray ys) {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesMove(JNIEnv * env, jobject thiz, jintArray ids, jfloatArray xs, jfloatArray ys, jfloatArray radiuss) {
         int size = env->GetArrayLength(ids);
         jint id[size];
         jfloat x[size];
         jfloat y[size];
+        jfloat radius[size];
 
         env->GetIntArrayRegion(ids, 0, size, id);
         env->GetFloatArrayRegion(xs, 0, size, x);
         env->GetFloatArrayRegion(ys, 0, size, y);
+        env->GetFloatArrayRegion(radiuss, 0, size, radius);
 
         intptr_t idlong[size];
         for(int i = 0; i < size; i++)
             idlong[i] = id[i];
 
-        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesMove(size, idlong, x, y);
+        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesMove(size, idlong, x, y, radius);
     }
 
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesCancel(JNIEnv * env, jobject thiz, jintArray ids, jfloatArray xs, jfloatArray ys) {
+    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxRenderer_nativeTouchesCancel(JNIEnv * env, jobject thiz, jintArray ids, jfloatArray xs, jfloatArray ys, jfloatArray radiuss) {
         int size = env->GetArrayLength(ids);
         jint id[size];
         jfloat x[size];
         jfloat y[size];
+        jfloat radius[size];
 
         env->GetIntArrayRegion(ids, 0, size, id);
         env->GetFloatArrayRegion(xs, 0, size, x);
         env->GetFloatArrayRegion(ys, 0, size, y);
+        env->GetFloatArrayRegion(radiuss, 0, size, radius);
 
         intptr_t idlong[size];
         for(int i = 0; i < size; i++)
             idlong[i] = id[i];
 
-        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesCancel(size, idlong, x, y);
+        cocos2d::Director::getInstance()->getOpenGLView()->handleTouchesCancel(size, idlong, x, y, radius);
     }
 
 #define KEYCODE_BACK 0x04

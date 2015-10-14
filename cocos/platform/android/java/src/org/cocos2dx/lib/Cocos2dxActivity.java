@@ -229,8 +229,6 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         for (OnActivityResultListener listener : Cocos2dxHelper.getOnActivityResultListeners()) {
             listener.onActivityResult(requestCode, resultCode, data);
         }
-
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
 

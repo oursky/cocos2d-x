@@ -48,6 +48,8 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLContext;
 
+import com.sdkbox.plugin.SDKBox;
+
 public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelperListener {
     // ===========================================================
     // Constants
@@ -123,6 +125,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         this.hideVirtualButton();
 
         onLoadNativeLibraries();
+        SDKBox.init(this);
 
         sContext = this;
         this.mHandler = new Cocos2dxHandler(this);
@@ -163,6 +166,17 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     // ===========================================================
     // Methods for/from SuperClass/Interfaces
     // ===========================================================
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SDKBox.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SDKBox.onStop();
+    }
 
     @Override
     protected void onResume() {
@@ -170,6 +184,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         super.onResume();
         Cocos2dxAudioFocusManager.registerAudioFocusListener(this);
         this.hideVirtualButton();
+        SDKBox.onResume();
        	resumeIfHasFocus();
 
         Cocos2dxEngineDataManager.resume();
@@ -197,6 +212,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     	Log.d(TAG, "onPause()");
         super.onPause();
         Cocos2dxAudioFocusManager.unregisterAudioFocusListener(this);
+        SDKBox.onPause();
         Cocos2dxHelper.onPause();
         mGLSurfaceView.onPause();
         Cocos2dxEngineDataManager.pause();
@@ -208,6 +224,13 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         super.onDestroy();
 
         Cocos2dxEngineDataManager.destroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!SDKBox.onBackPressed()) {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -228,6 +251,10 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     {
         for (OnActivityResultListener listener : Cocos2dxHelper.getOnActivityResultListeners()) {
             listener.onActivityResult(requestCode, resultCode, data);
+        }
+
+        if(!SDKBox.onActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

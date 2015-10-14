@@ -48,6 +48,47 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLContext;
 
+import com.sdkbox.plugin.SDKBox;
+
+class ResizeLayout extends FrameLayout{
+    private  boolean mEnableForceDoLayout = false;
+
+    public ResizeLayout(Context context){
+        super(context);
+    }
+
+    public ResizeLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public void setEnableForceDoLayout(boolean flag){
+        mEnableForceDoLayout = flag;
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        if(mEnableForceDoLayout){
+            /*This is a hot-fix for some android devices which don't do layout when the main window
+            * is paned.  We refersh the layout in 24 frames per seconds.
+            * When the editBox is lose focus or when user begin to type, the do layout is disabled.
+            */
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Do something after 100ms
+                    requestLayout();
+                    invalidate();
+                }
+            }, 1000 / 24);
+
+        }
+
+    }
+
+}
+
 public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelperListener {
     // ===========================================================
     // Constants
@@ -123,6 +164,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         this.hideVirtualButton();
 
         onLoadNativeLibraries();
+        SDKBox.init(this);
 
         sContext = this;
         this.mHandler = new Cocos2dxHandler(this);
@@ -163,6 +205,17 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     // ===========================================================
     // Methods for/from SuperClass/Interfaces
     // ===========================================================
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SDKBox.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SDKBox.onStop();
+    }
 
     @Override
     protected void onResume() {
@@ -170,6 +223,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         super.onResume();
         Cocos2dxAudioFocusManager.registerAudioFocusListener(this);
         this.hideVirtualButton();
+        SDKBox.onResume();
        	resumeIfHasFocus();
 
         Cocos2dxEngineDataManager.resume();
@@ -197,6 +251,7 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
     	Log.d(TAG, "onPause()");
         super.onPause();
         Cocos2dxAudioFocusManager.unregisterAudioFocusListener(this);
+        SDKBox.onPause();
         Cocos2dxHelper.onPause();
         mGLSurfaceView.onPause();
         Cocos2dxEngineDataManager.pause();
@@ -208,6 +263,13 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
         super.onDestroy();
 
         Cocos2dxEngineDataManager.destroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!SDKBox.onBackPressed()) {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -230,7 +292,9 @@ public abstract class Cocos2dxActivity extends Activity implements Cocos2dxHelpe
             listener.onActivityResult(requestCode, resultCode, data);
         }
 
-        super.onActivityResult(requestCode, resultCode, data);
+        if(!SDKBox.onActivityResult(requestCode, resultCode, data)) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
 

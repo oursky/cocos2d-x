@@ -208,6 +208,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
         final int[] ids = new int[pointerNumber];
         final float[] xs = new float[pointerNumber];
         final float[] ys = new float[pointerNumber];
+        final float[] radiuss = new float[pointerNumber];
 
         if (mSoftKeyboardShown){
             InputMethodManager imm = (InputMethodManager)this.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -221,6 +222,7 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
             ids[i] = pMotionEvent.getPointerId(i);
             xs[i] = pMotionEvent.getX(i);
             ys[i] = pMotionEvent.getY(i);
+            radiuss[i] = pMotionEvent.getSize(i);
         }
 
         switch (pMotionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -232,11 +234,12 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
                 final int idPointerDown = pMotionEvent.getPointerId(indexPointerDown);
                 final float xPointerDown = pMotionEvent.getX(indexPointerDown);
                 final float yPointerDown = pMotionEvent.getY(indexPointerDown);
+                final float radiusPointerDown = pMotionEvent.getSize(indexPointerDown);
 
                 this.queueEvent(new Runnable() {
                     @Override
                     public void run() {
-                        Cocos2dxGLSurfaceView.this.mCocos2dxRenderer.handleActionDown(idPointerDown, xPointerDown, yPointerDown);
+                        Cocos2dxGLSurfaceView.this.mCocos2dxRenderer.handleActionDown(idPointerDown, xPointerDown, yPointerDown, radiusPointerDown);
                     }
                 });
                 break;
@@ -246,11 +249,12 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
                 final int idDown = pMotionEvent.getPointerId(0);
                 final float xDown = xs[0];
                 final float yDown = ys[0];
+                final float radiusDown = radiuss[0];
 
                 this.queueEvent(new Runnable() {
                     @Override
                     public void run() {
-                        Cocos2dxGLSurfaceView.this.mCocos2dxRenderer.handleActionDown(idDown, xDown, yDown);
+                        Cocos2dxGLSurfaceView.this.mCocos2dxRenderer.handleActionDown(idDown, xDown, yDown, radiusDown);
                     }
                 });
                 break;
@@ -290,11 +294,12 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
                 final int idPointerUp = pMotionEvent.getPointerId(indexPointUp);
                 final float xPointerUp = pMotionEvent.getX(indexPointUp);
                 final float yPointerUp = pMotionEvent.getY(indexPointUp);
+                final float radiusPointerUp = pMotionEvent.getSize(indexPointUp);
 
                 this.queueEvent(new Runnable() {
                     @Override
                     public void run() {
-                        Cocos2dxGLSurfaceView.this.mCocos2dxRenderer.handleActionUp(idPointerUp, xPointerUp, yPointerUp);
+                        Cocos2dxGLSurfaceView.this.mCocos2dxRenderer.handleActionUp(idPointerUp, xPointerUp, yPointerUp, radiusPointerUp);
                     }
                 });
                 break;
@@ -304,11 +309,12 @@ public class Cocos2dxGLSurfaceView extends GLSurfaceView {
                 final int idUp = pMotionEvent.getPointerId(0);
                 final float xUp = xs[0];
                 final float yUp = ys[0];
+                final float radiusUp = radiuss[0];
 
                 this.queueEvent(new Runnable() {
                     @Override
                     public void run() {
-                        Cocos2dxGLSurfaceView.this.mCocos2dxRenderer.handleActionUp(idUp, xUp, yUp);
+                        Cocos2dxGLSurfaceView.this.mCocos2dxRenderer.handleActionUp(idUp, xUp, yUp, radiusUp);
                     }
                 });
                 break;

@@ -276,9 +276,9 @@ THE SOFTWARE.
 #endif
 
 /** Use culling or not. */
-#ifndef CC_USE_CULLING
-#define CC_USE_CULLING 1
-#endif
+//#ifndef CC_USE_CULLING
+//#define CC_USE_CULLING 1
+//#endif
 
 /** Support PNG or not. If your application don't use png format picture, you can undefine this macro to save package size.
  */

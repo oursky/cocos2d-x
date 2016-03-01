@@ -109,7 +109,18 @@ LanguageType Application::getCurrentLanguage()
     NSDictionary* temp = [NSLocale componentsFromLocaleIdentifier:currentLanguage];
     NSString * languageCode = [temp objectForKey:NSLocaleLanguageCode];
 
-    if ([languageCode isEqualToString:@"zh"]) return LanguageType::CHINESE;
+    if ([languageCode isEqualToString:@"zh"])
+    {
+        /** CHANGE THE FOLLOWING LINES */
+        NSString* scriptCode = [temp objectForKey:NSLocaleScriptCode];
+        NSString* countryCode = [temp objectForKey:NSLocaleCountryCode];
+        // On iOS, either chinese hong kong or chinese taiwan are traditional chinese.
+        if ([scriptCode isEqualToString:@"Hant"] || [countryCode isEqualToString:@"HK"]) {
+            return LanguageType::CHINESE_TRADITIONAL;  // You need to add these enum values to LanguageType
+        } else {
+            return LanguageType::CHINESE;  // You need to add these enum values to LanguageType
+        }
+    }
     if ([languageCode isEqualToString:@"en"]) return LanguageType::ENGLISH;
     if ([languageCode isEqualToString:@"fr"]) return LanguageType::FRENCH;
     if ([languageCode isEqualToString:@"it"]) return LanguageType::ITALIAN;

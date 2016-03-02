@@ -113,81 +113,88 @@ LanguageType Application::getCurrentLanguage()
 {
     std::string languageName = JniHelper::callStaticStringMethod(helperClassName, "getCurrentLanguage");
     const char* pLanguageName = languageName.c_str();
+    const char* languageCode = getCurrentLanguageCode();
     LanguageType ret = LanguageType::ENGLISH;
-
-    if (0 == strcmp("zh", pLanguageName))
+    
+    if (0 == strcmp("zh", languageCode))
     {
-        ret = LanguageType::CHINESE;
+        /** Change the following lines */
+        if (languageName.find("TW") != std::string::npos ||
+            languageName.find("HK") != std::string::npos) {
+            ret = LanguageType::CHINESE_TRADITIONAL;
+        } else {
+            ret = LanguageType::CHINESE;
+        }
     }
-    else if (0 == strcmp("en", pLanguageName))
+    else if (0 == strcmp("en", languageCode))
     {
         ret = LanguageType::ENGLISH;
     }
-    else if (0 == strcmp("fr", pLanguageName))
+    else if (0 == strcmp("fr", languageCode))
     {
         ret = LanguageType::FRENCH;
     }
-    else if (0 == strcmp("it", pLanguageName))
+    else if (0 == strcmp("it", languageCode))
     {
         ret = LanguageType::ITALIAN;
     }
-    else if (0 == strcmp("de", pLanguageName))
+    else if (0 == strcmp("de", languageCode))
     {
         ret = LanguageType::GERMAN;
     }
-    else if (0 == strcmp("es", pLanguageName))
+    else if (0 == strcmp("es", languageCode))
     {
         ret = LanguageType::SPANISH;
     }
-    else if (0 == strcmp("ru", pLanguageName))
+    else if (0 == strcmp("ru", languageCode))
     {
         ret = LanguageType::RUSSIAN;
     }
-    else if (0 == strcmp("nl", pLanguageName))
+    else if (0 == strcmp("nl", languageCode))
     {
         ret = LanguageType::DUTCH;
     }
-    else if (0 == strcmp("ko", pLanguageName))
+    else if (0 == strcmp("ko", languageCode))
     {
         ret = LanguageType::KOREAN;
     }
-    else if (0 == strcmp("ja", pLanguageName))
+    else if (0 == strcmp("ja", languageCode))
     {
         ret = LanguageType::JAPANESE;
     }
-    else if (0 == strcmp("hu", pLanguageName))
+    else if (0 == strcmp("hu", languageCode))
     {
         ret = LanguageType::HUNGARIAN;
     }
-    else if (0 == strcmp("pt", pLanguageName))
+    else if (0 == strcmp("pt", languageCode))
     {
         ret = LanguageType::PORTUGUESE;
     }
-    else if (0 == strcmp("ar", pLanguageName))
+    else if (0 == strcmp("ar", languageCode))
     {
         ret = LanguageType::ARABIC;
     }
-    else if (0 == strcmp("nb", pLanguageName))
+    else if (0 == strcmp("nb", languageCode))
     {
         ret = LanguageType::NORWEGIAN;
     }
-    else if (0 == strcmp("pl", pLanguageName))
+    else if (0 == strcmp("pl", languageCode))
     {
         ret = LanguageType::POLISH;
     }
-    else if (0 == strcmp("tr", pLanguageName))
+    else if (0 == strcmp("tr", languageCode))
     {
         ret = LanguageType::TURKISH;
     }
-    else if (0 == strcmp("uk", pLanguageName))
+    else if (0 == strcmp("uk", languageCode))
     {
         ret = LanguageType::UKRAINIAN;
     }
-    else if (0 == strcmp("ro", pLanguageName))
+    else if (0 == strcmp("ro", languageCode))
     {
         ret = LanguageType::ROMANIAN;
     }
-    else if (0 == strcmp("bg", pLanguageName))
+    else if (0 == strcmp("bg", languageCode))
     {
         ret = LanguageType::BULGARIAN;
     }

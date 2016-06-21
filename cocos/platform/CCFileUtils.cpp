@@ -918,6 +918,11 @@ const std::vector<std::string>& FileUtils::getOriginalSearchPaths() const
     return _originalSearchPaths;
 }
 
+std::string FileUtils::getCachePath() const
+{
+    return getWritablePath();
+}
+
 void FileUtils::setWritablePath(const std::string& writablePath)
 {
     _writablePath = writablePath;

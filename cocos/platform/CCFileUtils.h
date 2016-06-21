@@ -485,6 +485,12 @@ public:
     virtual std::string getWritablePath() const = 0;
 
     /**
+     *  Gets the path used for cache app data.
+     *  @return  The path that used to cache app data
+     */
+    virtual std::string getCachePath() const;
+
+    /**
      *  Sets writable path.
      */
     virtual void setWritablePath(const std::string& writablePath);

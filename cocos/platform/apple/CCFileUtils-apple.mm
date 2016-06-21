@@ -243,6 +243,15 @@ std::string FileUtilsApple::getWritablePath() const
     return strRet;
 }
 
+std::string FileUtilsApple::getCachePath() const
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    std::string strRet = [documentsDirectory UTF8String];
+    strRet.append("/");
+    return strRet;
+}
+
 bool FileUtilsApple::isFileExistInternal(const std::string& filePath) const
 {
     if (filePath.empty())

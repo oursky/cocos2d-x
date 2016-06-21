@@ -900,6 +900,11 @@ const std::vector<std::string>& FileUtils::getSearchPaths() const
     return _searchPathArray;
 }
 
+std::string FileUtils::getCachePath() const
+{
+    return getWritablePath();
+}
+
 void FileUtils::setWritablePath(const std::string& writablePath)
 {
     _writablePath = writablePath;

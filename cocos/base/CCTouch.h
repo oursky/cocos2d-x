@@ -112,6 +112,7 @@ public:
         _point.y   = y;
         _curForce = 0.0f;
         _maxForce = 0.0f;
+        _radius = 0;
         if (!_startPointCaptured)
         {
             _startPoint = _point;
@@ -136,6 +137,7 @@ public:
         _point.y   = y;
         _curForce = force;
         _maxForce = maxForce;
+        _radius = 0;
         if (!_startPointCaptured)
         {
             _startPoint = _point;
@@ -163,6 +165,20 @@ public:
      * @return The maximum touch force for 3d touch.
      */
     float getMaxForce() const;
+    
+    /** Get touch radius.
+     *
+     * @return The radius of touch.
+     */
+    float getRadius() const
+    {
+        return _radius;
+    }
+    
+    void setRadius(float radius)
+    {
+        _radius = radius;
+    }
 
 private:
     int _id;
@@ -172,6 +188,7 @@ private:
     Vec2 _prevPoint;
     float _curForce;
     float _maxForce;
+    float _radius;
 };
 
 // end of base group

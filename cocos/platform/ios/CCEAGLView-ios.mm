@@ -411,6 +411,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {0};
     float xs[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float ys[IOS_MAX_TOUCHES_COUNT] = {0.0f};
+    float radiuss[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     
     int i = 0;
     for (UITouch *touch in touches) {
@@ -422,11 +423,12 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
         ids[i] = touch;
         xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;
         ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;
+        radiuss[i] = touch.majorRadius;
         ++i;
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
-    glview->handleTouchesBegin(i, (intptr_t*)ids, xs, ys);
+    glview->handleTouchesBegin(i, (intptr_t*)ids, xs, ys, radiuss);
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -436,6 +438,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     float ys[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float fs[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float ms[IOS_MAX_TOUCHES_COUNT] = {0.0f};
+    float radiuss[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     
     int i = 0;
     for (UITouch *touch in touches) {
@@ -447,6 +450,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
         ids[i] = touch;
         xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;
         ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;
+        radiuss[i] = touch.majorRadius;
 #if defined(__IPHONE_9_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0)
         // running on iOS 9.0 or higher version
         if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0f) {
@@ -458,7 +462,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
-    glview->handleTouchesMove(i, (intptr_t*)ids, xs, ys, fs, ms);
+    glview->handleTouchesMove(i, (intptr_t*)ids, xs, ys, fs, ms, radiuss);
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -466,6 +470,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {0};
     float xs[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float ys[IOS_MAX_TOUCHES_COUNT] = {0.0f};
+    float radiuss[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     
     int i = 0;
     for (UITouch *touch in touches) {
@@ -477,11 +482,12 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
         ids[i] = touch;
         xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;
         ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;
+        radiuss[i] = touch.majorRadius;
         ++i;
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
-    glview->handleTouchesEnd(i, (intptr_t*)ids, xs, ys);
+    glview->handleTouchesEnd(i, (intptr_t*)ids, xs, ys, radiuss);
 }
     
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
@@ -489,6 +495,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     UITouch* ids[IOS_MAX_TOUCHES_COUNT] = {0};
     float xs[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     float ys[IOS_MAX_TOUCHES_COUNT] = {0.0f};
+    float radiuss[IOS_MAX_TOUCHES_COUNT] = {0.0f};
     
     int i = 0;
     for (UITouch *touch in touches) {
@@ -500,11 +507,12 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
         ids[i] = touch;
         xs[i] = [touch locationInView: [touch view]].x * self.contentScaleFactor;
         ys[i] = [touch locationInView: [touch view]].y * self.contentScaleFactor;
+        radiuss[i] = touch.majorRadius;
         ++i;
     }
 
     auto glview = cocos2d::Director::getInstance()->getOpenGLView();
-    glview->handleTouchesCancel(i, (intptr_t*)ids, xs, ys);
+    glview->handleTouchesCancel(i, (intptr_t*)ids, xs, ys, radiuss);
 }
 
 #pragma mark - UIView - Responder

@@ -351,7 +351,7 @@ public:
      * @param xs The points of x.
      * @param ys The points of y.
      */
-    virtual void handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[]);
+    virtual void handleTouchesBegin(int num, intptr_t ids[], float xs[], float ys[], float radiuss[]);
     
     /** Touch events are handled by default; if you want to customize your handlers, please override this function.
      *
@@ -360,7 +360,7 @@ public:
      * @param xs The points of x.
      * @param ys The points of y.
      */
-    virtual void handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[]);
+    virtual void handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[], float radiuss[]);
 
     /** Touch events are handled by default; if you want to customize your handlers, please override this function.
      *
@@ -371,7 +371,7 @@ public:
      * @param fs The force of 3d touches.
      # @param ms The maximum force of 3d touches
      */
-    virtual void handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[], float fs[], float ms[]);
+    virtual void handleTouchesMove(int num, intptr_t ids[], float xs[], float ys[], float fs[], float ms[], float radiuss[]);
     
     /** Touch events are handled by default; if you want to customize your handlers, please override this function.
      *
@@ -380,7 +380,7 @@ public:
      * @param xs The points of x.
      * @param ys The points of y.
      */
-    virtual void handleTouchesEnd(int num, intptr_t ids[], float xs[], float ys[]);
+    virtual void handleTouchesEnd(int num, intptr_t ids[], float xs[], float ys[], float radiuss[]);
     
     /** Touch events are handled by default; if you want to customize your handlers, please override this function.
      *
@@ -389,7 +389,7 @@ public:
      * @param xs The points of x.
      * @param ys The points of y.
      */
-    virtual void handleTouchesCancel(int num, intptr_t ids[], float xs[], float ys[]);
+    virtual void handleTouchesCancel(int num, intptr_t ids[], float xs[], float ys[], float radiuss[]);
 
     /**
      * Get the opengl view port rectangle.
@@ -449,7 +449,7 @@ public:
 protected:
     void updateDesignResolutionSize();
     
-    void handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num, intptr_t ids[], float xs[], float ys[]);
+    void handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num, intptr_t ids[], float xs[], float ys[], float radiuss[]);
 
     // real screen size
     Size _screenSize;
